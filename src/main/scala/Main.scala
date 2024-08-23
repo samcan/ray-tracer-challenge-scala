@@ -20,6 +20,11 @@ case class Tuple(x: Double, y: Double, z: Double, w: Double) {
     this * (1.0 / divisor)
   }
 
+  def ~=(b: Tuple): Boolean = {
+    math.abs(this.x - b.x) < EPSILON && math.abs(this.y - b.y) < EPSILON && math
+      .abs(this.z - b.z) < EPSILON && math.abs(this.w - b.w) < EPSILON
+  }
+
   def negate(): Tuple = {
     Tuple(-this.x, -this.y, -this.z, -this.w)
   }
