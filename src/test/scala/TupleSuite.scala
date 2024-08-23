@@ -1,6 +1,6 @@
 // For more information on writing tests, see
 // https://scalameta.org/munit/docs/getting-started.html
-class MySuite extends munit.FunSuite {
+class TupleSuite extends munit.FunSuite {
   test("A tuple with w=1.0 is a point") {
     val input = Tuple(4.3, -4.2, 3.1, 1.0)
     assertEquals(tuple_is_a_point(input), true)
