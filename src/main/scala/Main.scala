@@ -48,18 +48,54 @@ case class Tuple(x: Double, y: Double, z: Double, w: Double) {
   }
 }
 
+/** Determine if the provided tuple is a point.
+  *
+  * @param t
+  *   The tuple to check
+  * @return
+  *   true if the tuple is a point, false if not.
+  */
 def tuple_is_a_point(t: Tuple): Boolean = {
   t.w == 1.0
 }
 
+/** Determine if the provided tuple is a vector.
+  *
+  * @param t
+  *   The tuple to check.
+  * @return
+  *   true if the tuple is a vector, false if not.
+  */
 def tuple_is_a_vector(t: Tuple): Boolean = {
   !tuple_is_a_point(t)
 }
 
+/** Create a point tuple.
+  *
+  * @param x
+  *   The x-coord.
+  * @param y
+  *   The y-coord.
+  * @param z
+  *   The z-coord (left-handed coordinate system).
+  * @return
+  *   A tuple that has w = 1.0 (is a point).
+  */
 def point(x: Double, y: Double, z: Double): Tuple = {
   Tuple(x, y, z, 1.0)
 }
 
+/** Create a vector tuple.
+  *
+  * @param x
+  *   The x-coord.
+  * @param y
+  *   The y-coord.
+  * @param z
+  *   The z-coord (left-handed coordinate system).
+  * @return
+  *   A tuple that has w = 0.0 (is a vector).
+  */
 def vector(x: Double, y: Double, z: Double): Tuple = {
   Tuple(x, y, z, 0.0)
 }
@@ -69,7 +105,16 @@ def dot(a: Tuple, b: Tuple): Double = {
   a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w
 }
 
-// Computes the vector that is perpendicular to both vectors a and b.
+/** Compute the cross product: the vector that is perpendicular to both vectors
+  * a and b.
+  *
+  * @param a
+  *   The first vector.
+  * @param b
+  *   The second vector.
+  * @return
+  *   The cross product of the two vectors.
+  */
 def cross(a: Tuple, b: Tuple): Tuple = {
   vector(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x)
 }
