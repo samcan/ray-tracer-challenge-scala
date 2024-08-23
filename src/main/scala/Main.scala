@@ -24,28 +24,6 @@ case class Tuple(x: Double, y: Double, z: Double, w: Double) {
     math.abs(this.x - b.x) < EPSILON && math.abs(this.y - b.y) < EPSILON && math
       .abs(this.z - b.z) < EPSILON && math.abs(this.w - b.w) < EPSILON
   }
-
-  def negate(): Tuple = {
-    Tuple(-this.x, -this.y, -this.z, -this.w)
-  }
-
-  // can we somehow limit the magnitude and normalization to just vectors?
-  def magnitude(): Double = {
-    Math.sqrt(
-      Math.pow(this.x, 2) + Math.pow(this.y, 2) + Math.pow(this.z, 2) + Math
-        .pow(this.w, 2)
-    )
-  }
-
-  def normalize(): Tuple = {
-    val magnitude = this.magnitude()
-    Tuple(
-      this.x / magnitude,
-      this.y / magnitude,
-      this.z / magnitude,
-      this.w / magnitude
-    )
-  }
 }
 
 /** Determine if the provided tuple is a point.
@@ -117,4 +95,44 @@ def dot(a: Tuple, b: Tuple): Double = {
   */
 def cross(a: Tuple, b: Tuple): Tuple = {
   vector(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x)
+}
+
+/** Compute the magnitude of the vector.
+  *
+  * (Can we somehow limit to just a vector type?)
+  *
+  * @param t
+  *   The tuple to operate on.
+  * @return
+  *   The magnitude of the vector.
+  */
+def magnitude(t: Tuple): Double = {
+  math.sqrt(
+    math.pow(t.x, 2) + math.pow(t.y, 2) + math.pow(t.z, 2) + math.pow(t.w, 2)
+  )
+}
+
+/** Normalize the vector.
+  *
+  * (Can we somehow limit to just a vector type?)
+  *
+  * @param t
+  *   The tuple to operate on.
+  * @return
+  *   The normalized vector.
+  */
+def normalize(t: Tuple): Tuple = {
+  val m = magnitude(t)
+  Tuple(t.x / m, t.y / m, t.z / m, t.w / m)
+}
+
+/** Negate the tuple.
+  *
+  * @param t
+  *   The tuple to negate.
+  * @return
+  *   The negated tuple.
+  */
+def negate(t: Tuple): Tuple = {
+  Tuple(-t.x, -t.y, -t.z, -t.w)
 }

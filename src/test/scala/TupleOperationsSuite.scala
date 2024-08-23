@@ -32,7 +32,7 @@ class TupleOperationsSuite extends munit.FunSuite {
   test("Negate a tuple") {
     val a = Tuple(1, -2, 3, -4)
     val expected = Tuple(-1, 2, -3, 4)
-    assertEquals(a.negate(), expected)
+    assertEquals(negate(a), expected)
   }
 
   test("Multiplying a tuple by a scalar") {
@@ -55,40 +55,40 @@ class TupleOperationsSuite extends munit.FunSuite {
 
   test("Compute the magnitude of vector(1, 0, 0)") {
     val a = vector(1, 0, 0)
-    assertEquals(a.magnitude(), 1.0)
+    assertEquals(magnitude(a), 1.0)
   }
 
   test("Compute the magnitude of vector(0, 1, 0)") {
     val a = vector(0, 1, 0)
-    assertEquals(a.magnitude(), 1.0)
+    assertEquals(magnitude(a), 1.0)
   }
 
   test("Compute the magnitude of vector(0, 0, 1)") {
     val a = vector(0, 0, 1)
-    assertEquals(a.magnitude(), 1.0)
+    assertEquals(magnitude(a), 1.0)
   }
 
   test("Compute the magnitude of vector(1, 2, 3)") {
     val a = vector(1, 2, 3)
-    assertEquals(a.magnitude(), Math.sqrt(14))
+    assertEquals(magnitude(a), Math.sqrt(14))
   }
 
   test("Compute the magnitude of vector(-1, -2, -3)") {
     val a = vector(-1, -2, -3)
-    assertEquals(a.magnitude(), Math.sqrt(14))
+    assertEquals(magnitude(a), Math.sqrt(14))
   }
 
   test("Normalizing vector(4, 0, 0) gives (1, 0, 0)") {
     val a = vector(4, 0, 0)
     val expected = vector(1, 0, 0)
-    assertEquals(a.normalize(), expected)
+    assertEquals(normalize(a), expected)
   }
 
   test("Normalizing vector(1, 2, 3)") {
     val a = vector(1, 2, 3)
     val expected =
       vector(1 / Math.sqrt(14), 2 / Math.sqrt(14), 3 / Math.sqrt(14))
-    assertEquals(a.normalize(), expected)
+    assertEquals(normalize(a), expected)
   }
 
   test("The dot product of two tuples") {

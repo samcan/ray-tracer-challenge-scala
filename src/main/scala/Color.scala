@@ -7,6 +7,7 @@ case class Color(red: Double, green: Double, blue: Double) {
     Color(this.red - b.red, this.green - b.green, this.blue - b.blue)
   }
 
+  // Blend two colors together by computing the Hadamard product
   def *(b: Color): Color = {
     Color(this.red * b.red, this.green * b.green, this.blue * b.blue)
   }
