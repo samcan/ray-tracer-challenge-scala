@@ -1,6 +1,8 @@
 @main def hello(): Unit =
   println("Hello world!")
 
+val EPSILON = 0.00001
+
 case class Tuple(x: Double, y: Double, z: Double, w: Double) {
   def +(b: Tuple): Tuple = {
     Tuple(this.x + b.x, this.y + b.y, this.z + b.z, this.w + b.w)
