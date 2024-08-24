@@ -2,44 +2,44 @@
 // https://scalameta.org/munit/docs/getting-started.html
 class CanvasSuite extends munit.FunSuite {
   test("Creating a canvas") {
-    val rows = 10
-    val cols = 20
-    val canvas = MakeCanvas(rows, cols)
+    val width = 20
+    val height = 10
+    val canvas = MakeCanvas(width, height)
 
     for {
-      i <- 0 until rows
-      j <- 0 until cols
+      i <- 0 until width
+      j <- 0 until height
     } assertEquals(PixelAt(canvas, i, j), Some(Color(0, 0, 0)))
   }
 
-  test("Test PixelAt returns None for out of range row") {
-    val rows = 10
-    val cols = 20
-    val canvas = MakeCanvas(rows, cols)
-
-    assertEquals(PixelAt(canvas, rows, 0), None)
-  }
-
   test("Test PixelAt returns None for out of range col") {
-    val rows = 10
-    val cols = 20
-    val canvas = MakeCanvas(rows, cols)
+    val width = 20
+    val height = 10
+    val canvas = MakeCanvas(width, height)
 
-    assertEquals(PixelAt(canvas, 0, cols), None)
+    assertEquals(PixelAt(canvas, width, 0), None)
   }
 
-  test("WritePixel sets a pixel on the canvas") {
-    val rows = 10
-    val cols = 20
-    val canvas = MakeCanvas(rows, cols)
+  test("Test PixelAt returns None for out of range row") {
+    val width = 20
+    val height = 10
+    val canvas = MakeCanvas(width, height)
+
+    assertEquals(PixelAt(canvas, 0, height), None)
+  }
+
+  test("SetPixel sets a pixel on the canvas") {
+    val width = 20
+    val height = 10
+    val canvas = MakeCanvas(width, height)
 
     // write new color at specific location
-    val row = 2
-    val col = 3
+    val x = 2
+    val y = 3
     val redColor = Color(1, 0, 0)
-    val outputCanvas = WritePixel(canvas, row, col, redColor)
+    val outputCanvas = SetPixel(canvas, x, y, redColor)
 
-    assertEquals(PixelAt(outputCanvas, row, col), Some(redColor))
+    assertEquals(PixelAt(outputCanvas, x, y), Some(redColor))
   }
 
   // TODO Test WritePixel with out-of-bounds indices

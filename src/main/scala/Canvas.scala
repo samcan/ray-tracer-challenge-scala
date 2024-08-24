@@ -1,26 +1,26 @@
-def MakeCanvasRow(cols: Int): IndexedSeq[Color] = {
-  Vector.fill(cols)(Color(0, 0, 0)).toIndexedSeq
+def MakeCanvasRow(x: Int): IndexedSeq[Color] = {
+  Vector.fill(x)(Color(0, 0, 0)).toIndexedSeq
 }
 
-def MakeCanvas(rows: Int, cols: Int): IndexedSeq[IndexedSeq[Color]] = {
-  Vector.fill(rows)(MakeCanvasRow(cols)).toIndexedSeq
+def MakeCanvas(x: Int, y: Int): IndexedSeq[IndexedSeq[Color]] = {
+  Vector.fill(y)(MakeCanvasRow(x)).toIndexedSeq
 }
 
 def PixelAt(
     canvas: IndexedSeq[IndexedSeq[Color]],
-    row: Int,
-    col: Int
+    x: Int,
+    y: Int
 ): Option[Color] = {
-  if row < canvas.length && col < canvas(row).length then Some(canvas(row)(col))
+  if y < canvas.length && x < canvas(y).length then Some(canvas(y)(x))
   else None
 }
 
-def WritePixel(
+def SetPixel(
     canvas: IndexedSeq[IndexedSeq[Color]],
-    row: Int,
-    col: Int,
+    x: Int,
+    y: Int,
     c: Color
 ): IndexedSeq[IndexedSeq[Color]] = {
-  val updatedRow = canvas(row).updated(col, c)
-  canvas.updated(row, updatedRow)
+  val updatedRow = canvas(y).updated(x, c)
+  canvas.updated(y, updatedRow)
 }
