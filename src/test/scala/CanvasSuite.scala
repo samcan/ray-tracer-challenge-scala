@@ -12,6 +12,18 @@ class CanvasSuite extends munit.FunSuite {
     } assertEquals(PixelAt(canvas, i, j), Some(Color(0, 0, 0)))
   }
 
+  test("Creating a canvas with a specified color") {
+    val width = 5
+    val height = 3
+    val color = Color(1, 0, 0)
+    val canvas = MakeCanvas(color)(width, height)
+
+    for {
+      i <- 0 until width
+      j <- 0 until height
+    } assertEquals(PixelAt(canvas, i, j), Some(color))
+  }
+
   test("Test PixelAt returns None for out of range col") {
     val width = 20
     val height = 10

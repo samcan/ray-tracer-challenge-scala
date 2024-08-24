@@ -1,9 +1,15 @@
-def MakeCanvasRow(x: Int): IndexedSeq[Color] = {
-  Vector.fill(x)(Color(0, 0, 0)).toIndexedSeq
+def MakeCanvasRow(x: Int, color: Color): IndexedSeq[Color] = {
+  Vector.fill(x)(color).toIndexedSeq
+}
+
+def MakeCanvas(
+    prefill: Color
+)(x: Int, y: Int): IndexedSeq[IndexedSeq[Color]] = {
+  Vector.fill(y)(MakeCanvasRow(x, prefill)).toIndexedSeq
 }
 
 def MakeCanvas(x: Int, y: Int): IndexedSeq[IndexedSeq[Color]] = {
-  Vector.fill(y)(MakeCanvasRow(x)).toIndexedSeq
+  MakeCanvas(Color(0, 0, 0))(x, y)
 }
 
 def PixelAt(

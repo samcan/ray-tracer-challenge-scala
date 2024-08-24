@@ -48,8 +48,27 @@ class PortablePixmapSaverSuite extends munit.FunSuite {
   }
 
   test("Write a row") {
-    val row = MakeCanvasRow(3)
+    val row = MakeCanvasRow(3, Color(0, 0, 0))
     val expected = "0 0 0 0 0 0 0 0 0\n"
     assertEquals(WriteRow(row), expected)
+  }
+
+  test("Splitting long lines in PPM files") {
+    val c = MakeCanvas(Color(1, 0.8, 0.6))(10, 2)
+    val ppm = CanvasToPPM(c)
+    assertNoDiff(
+      ppm.apply(3),
+      "255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204\n153 255 204 153 255 204 153 255 204 153 255 204 153\n"
+    )
+    assertEquals(
+      ppm.apply(4),
+      "255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204\n153 255 204 153 255 204 153 255 204 153 255 204 153\n"
+    )
+  }
+
+  test("PPM files are terminated by a newline character") {
+    val c = MakeCanvas(5, 3)
+    val output = CanvasToPPM(c)
+    assert(output(output.length - 1).endsWith("\n"))
   }
 }
