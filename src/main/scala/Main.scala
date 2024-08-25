@@ -136,3 +136,13 @@ def normalize(t: Tuple): Tuple = {
 def negate(t: Tuple): Tuple = {
   Tuple(-t.x, -t.y, -t.z, -t.w)
 }
+
+def TupleToIndexedSeq(t: Tuple): IndexedSeq[Double] = {
+  Vector[Double](t.x, t.y, t.z, t.w).toIndexedSeq
+}
+
+def IndexedSeqToTuple(s: IndexedSeq[Double]): Option[Tuple] = {
+  if s.length == 4 then
+    Some(Tuple(s.apply(0), s.apply(1), s.apply(2), s.apply(3)))
+  else None
+}
