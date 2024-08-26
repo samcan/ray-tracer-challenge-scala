@@ -105,7 +105,7 @@ class MatricesSuite extends munit.FunSuite {
     assertEquals(product, Some(Tuple(18, 24, 33, 1)))
   }
 
-  test("Mutiply 4x4 matrix with identity matrix") {
+  test("Multiply 4x4 matrix with identity matrix") {
     val a = Vector(
       Vector[Double](0, 1, 2, 4),
       Vector[Double](1, 2, 4, 8),
