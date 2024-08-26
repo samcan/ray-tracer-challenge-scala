@@ -135,4 +135,120 @@ class MatricesSuite extends munit.FunSuite {
     val a = IdentityMatrix()
     assertEquals(a.transpose, IdentityMatrix())
   }
+
+  test("Calculate determinant of 2x2 matrix") {
+    val a = IndexedSeq(IndexedSeq[Double](1, 5), IndexedSeq[Double](-3, 2))
+    assertEquals(Determinant(Some(a)), Some(17.0))
+  }
+
+  test("Remove the beginning col from a row") {
+    val row = IndexedSeq[Double](1, 2, 3)
+    assertEquals(FilterMatrixColFromRow(0)(row), Some(IndexedSeq[Double](2, 3)))
+  }
+
+  test("Remove the ending col from a row") {
+    val row = IndexedSeq[Double](1, 2, 3)
+    assertEquals(FilterMatrixColFromRow(2)(row), Some(IndexedSeq[Double](1, 2)))
+  }
+
+  test("Remove an inner col from a row") {
+    val row = IndexedSeq[Double](1, 2, 3)
+    assertEquals(FilterMatrixColFromRow(1)(row), Some(IndexedSeq[Double](1, 3)))
+  }
+
+  test("Remove an out-of-range col from a row fails") {
+    val row = IndexedSeq[Double](1, 2, 3)
+    assertEquals(FilterMatrixColFromRow(5)(row), None)
+  }
+
+  test("A submatrix of a 3x3 matrix is a 2x2 matrix") {
+    val a = IndexedSeq(
+      IndexedSeq[Double](1, 5, 0),
+      IndexedSeq[Double](-3, 2, 7),
+      IndexedSeq[Double](0, 6, -3)
+    )
+    val expected =
+      IndexedSeq(IndexedSeq[Double](-3, 2), IndexedSeq[Double](0, 6))
+    assertEquals(Submatrix(a, 0, 2), Some(expected))
+  }
+
+  test("A submatrix of a 4x4 matrix is a 3x3 matrix") {
+    val a = IndexedSeq(
+      IndexedSeq[Double](-6, 1, 1, 6),
+      IndexedSeq[Double](-8, 5, 8, 6),
+      IndexedSeq[Double](-1, 0, 8, 2),
+      IndexedSeq[Double](-7, 1, -1, 1)
+    )
+    val expected = IndexedSeq(
+      IndexedSeq[Double](-6, 1, 6),
+      IndexedSeq[Double](-8, 8, 6),
+      IndexedSeq[Double](-7, -1, 1)
+    )
+    assertEquals(Submatrix(a, 2, 1), Some(expected))
+  }
+
+  test("Calculating a minor of a 3x3 matrix") {
+    val a = IndexedSeq(
+      IndexedSeq[Double](3, 5, 0),
+      IndexedSeq[Double](2, -1, -7),
+      IndexedSeq[Double](6, -1, 5)
+    )
+    assertEquals(Minor(a, 1, 0), Some(25.0))
+  }
+
+  test("Calculating a cofactor of a 3x3 matrix") {
+    val a = IndexedSeq(
+      IndexedSeq[Double](3, 5, 0),
+      IndexedSeq[Double](2, -1, -7),
+      IndexedSeq[Double](6, -1, 5)
+    )
+    assertEquals(Cofactor(a, 0, 0), Some(-12.0))
+    assertEquals(Cofactor(a, 1, 0), Some(-25.0))
+  }
+
+  test("Calculating the determinant of a 3x3 matrix") {
+    val a = IndexedSeq(
+      IndexedSeq[Double](1, 2, 6),
+      IndexedSeq[Double](-5, 8, -4),
+      IndexedSeq[Double](2, 6, 4)
+    )
+    assertEquals(Cofactor(a, 0, 0), Some(56.0))
+    assertEquals(Cofactor(a, 0, 1), Some(12.0))
+    assertEquals(Cofactor(a, 0, 2), Some(-46.0))
+    assertEquals(Determinant(Some(a)), Some(-196.0))
+  }
+
+  test("Calculating the determinant of a 4x4 matrix") {
+    val a = IndexedSeq(
+      IndexedSeq[Double](-2, -8, 3, 5),
+      IndexedSeq[Double](-3, 1, 7, 3),
+      IndexedSeq[Double](1, 2, -9, 6),
+      IndexedSeq[Double](-6, 7, 7, -9)
+    )
+    assertEquals(Cofactor(a, 0, 0), Some(690.0))
+    assertEquals(Cofactor(a, 0, 1), Some(447.0))
+    assertEquals(Cofactor(a, 0, 2), Some(210.0))
+    assertEquals(Cofactor(a, 0, 3), Some(51.0))
+    assertEquals(Determinant(Some(a)), Some(-4071.0))
+  }
+
+  test("Testing an invertible matrix for invertibility") {
+    val a = IndexedSeq(
+      IndexedSeq[Double](6, 4, 4, 4),
+      IndexedSeq[Double](5, 5, 7, 6),
+      IndexedSeq[Double](4, -9, 3, 7),
+      IndexedSeq[Double](9, 1, 7, -6)
+    )
+    assertEquals(Invertible(Some(a)), Some(true))
+  }
+
+  test("Testing a noninvertible matrix for invertibility") {
+    val a = IndexedSeq(
+      IndexedSeq[Double](-4, 2, -2, -3),
+      IndexedSeq[Double](9, 6, 2, 6),
+      IndexedSeq[Double](0, -5, 1, -5),
+      IndexedSeq[Double](0, 0, 0, 0)
+    )
+    assertEquals(Invertible(Some(a)), Some(false))
+  }
 }
