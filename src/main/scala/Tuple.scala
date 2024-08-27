@@ -1,4 +1,5 @@
-val EPSILON = 0.00001
+import org.scalactic._
+import org.scalactic.TripleEquals._
 
 case class Tuple(x: Double, y: Double, z: Double, w: Double) {
   def +(b: Tuple): Tuple = {
@@ -18,8 +19,7 @@ case class Tuple(x: Double, y: Double, z: Double, w: Double) {
   }
 
   def ~=(b: Tuple): Boolean = {
-    math.abs(this.x - b.x) < EPSILON && math.abs(this.y - b.y) < EPSILON && math
-      .abs(this.z - b.z) < EPSILON && math.abs(this.w - b.w) < EPSILON
+    this.x === b.x && this.y === b.y && this.z === b.z && this.w === b.w
   }
 }
 

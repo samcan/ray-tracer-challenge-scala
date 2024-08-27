@@ -1,4 +1,8 @@
+import org.scalactic._
+import org.scalactic.TripleEquals._
+
 class MatricesSuite extends munit.FunSuite {
+
   test("Inspecting a 4x4 matrix") {
     val m = Vector(
       Vector[Double](1, 2, 3, 4),
@@ -250,5 +254,79 @@ class MatricesSuite extends munit.FunSuite {
       IndexedSeq[Double](0, 0, 0, 0)
     )
     assertEquals(Invertible(Some(a)), Some(false))
+  }
+
+  test("Calculating the inverse of a matrix") {
+    val a = IndexedSeq(
+      IndexedSeq[Double](-5, 2, 6, -8),
+      IndexedSeq[Double](1, -5, 1, 8),
+      IndexedSeq[Double](7, 7, -6, -7),
+      IndexedSeq[Double](1, -3, 7, 4)
+    )
+    val b = Inverse(Some(a))
+    val expectedInverse = IndexedSeq(
+      IndexedSeq[Double](0.21805, 0.45113, 0.24060, -0.04511),
+      IndexedSeq[Double](-0.80827, -1.45677, -0.44361, 0.52068),
+      IndexedSeq[Double](-0.07895, -0.22368, -0.05263, 0.19737),
+      IndexedSeq[Double](-0.52256, -0.81391, -0.30075, 0.30639)
+    )
+
+    assertEquals(Determinant(Some(a)), Some(532.0))
+    assertEquals(Cofactor(a, 2, 3), Some(-160.0))
+    assertEquals(GetMatrixValue(b.get, 3, 2), Some(-160.0 / 532.0))
+    assertEquals(Cofactor(a, 3, 2), Some(105.0))
+    assertEquals(GetMatrixValue(b.get, 2, 3), Some(105.0 / 532.0))
+    assert(b.get === expectedInverse)
+  }
+
+  test("Calculating the inverse of another matrix") {
+    val a = IndexedSeq(
+      IndexedSeq[Double](8, -5, 9, 2),
+      IndexedSeq[Double](7, 5, 6, 1),
+      IndexedSeq[Double](-6, 0, 9, 6),
+      IndexedSeq[Double](-3, 0, -9, -4)
+    )
+    val expectedInverse = IndexedSeq(
+      IndexedSeq[Double](-0.15385, -0.15385, -0.28205, -0.53846),
+      IndexedSeq[Double](-0.07692, 0.12308, 0.02564, 0.03077),
+      IndexedSeq[Double](0.35897, 0.35897, 0.43590, 0.92308),
+      IndexedSeq[Double](-0.69231, -0.69231, -0.76923, -1.92308)
+    )
+
+    assert(Inverse(Some(a)).get === expectedInverse)
+  }
+
+  test("Calculating the inverse of a third matrix") {
+    val a = IndexedSeq(
+      IndexedSeq[Double](9, 3, 0, 9),
+      IndexedSeq[Double](-5, -2, -6, -3),
+      IndexedSeq[Double](-4, 9, 6, 4),
+      IndexedSeq[Double](-7, 6, 6, 2)
+    )
+    val expectedInverse = IndexedSeq(
+      IndexedSeq[Double](-0.04074, -0.07778, 0.14444, -0.22222),
+      IndexedSeq[Double](-0.07778, 0.03333, 0.36667, -0.33333),
+      IndexedSeq[Double](-0.02901, -0.14630, -0.10926, 0.12963),
+      IndexedSeq[Double](0.17778, 0.06667, -0.26667, 0.33333)
+    )
+
+    assert(Inverse(Some(a)).get === expectedInverse)
+  }
+
+  test("Multiplying a product by its inverse") {
+    val a = IndexedSeq(
+      IndexedSeq[Double](3, -9, 7, 3),
+      IndexedSeq[Double](3, -8, 2, -9),
+      IndexedSeq[Double](-4, 4, 4, 1),
+      IndexedSeq[Double](-6, 5, -1, 1)
+    )
+    val b = IndexedSeq(
+      IndexedSeq[Double](8, 2, 2, 2),
+      IndexedSeq[Double](3, -1, 7, 0),
+      IndexedSeq[Double](7, 0, 5, 4),
+      IndexedSeq[Double](6, -2, 0, 5)
+    )
+    val c = MultiplyMatrix(a, b)
+    assert(MultiplyMatrix(c, Inverse(Some(b)).get) === a)
   }
 }

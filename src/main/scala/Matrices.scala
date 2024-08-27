@@ -95,3 +95,25 @@ def Invertible(a: Option[IndexedSeq[IndexedSeq[Double]]]): Option[Boolean] = {
     case None    => None
   }
 }
+
+def Inverse(
+    a: Option[IndexedSeq[IndexedSeq[Double]]]
+): Option[IndexedSeq[IndexedSeq[Double]]] = {
+  Invertible(a) match {
+    case Some(v) =>
+      if v then
+        val det = Determinant(a)
+        Some(
+          a.get.zipWithIndex
+            .map((row, j) =>
+              row.zipWithIndex.map((col, i) =>
+                Cofactor(a.get, j, i).get / det.get
+              )
+            )
+            .toIndexedSeq
+            .transpose
+        )
+      else None
+    case None => None
+  }
+}
