@@ -117,3 +117,25 @@ def Inverse(
     case None => None
   }
 }
+
+def Translation(
+    x: Double,
+    y: Double,
+    z: Double
+): IndexedSeq[IndexedSeq[Double]] = {
+  IdentityMatrix()
+    .updated(0, IdentityMatrix()(0).updated(3, x))
+    .updated(1, IdentityMatrix()(1).updated(3, y))
+    .updated(2, IdentityMatrix()(2).updated(3, z))
+}
+
+def Scaling(
+    x: Double,
+    y: Double,
+    z: Double
+): IndexedSeq[IndexedSeq[Double]] = {
+  IdentityMatrix()
+    .updated(0, IdentityMatrix()(0).updated(0, x))
+    .updated(1, IdentityMatrix()(1).updated(1, y))
+    .updated(2, IdentityMatrix()(2).updated(2, z))
+}

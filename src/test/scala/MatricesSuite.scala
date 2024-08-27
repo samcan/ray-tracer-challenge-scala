@@ -329,4 +329,62 @@ class MatricesSuite extends munit.FunSuite {
     val c = MultiplyMatrix(a, b)
     assert(MultiplyMatrix(c, Inverse(Some(b)).get) === a)
   }
+
+  test("Multiplying by a translation matrix") {
+    val transform = Translation(5.0, -3.0, 2.0)
+    val p = TupleToIndexedSeq(point(-3, 4, 5))
+    assert(
+      MultiplyMatrixTuple(transform, p) === TupleToIndexedSeq(point(2, 1, 7))
+    )
+  }
+
+  test("Multiplying by the inverse of a translation matrix") {
+    val transform = Inverse(Some(Translation(5.0, -3.0, 2.0))).get
+    val p = TupleToIndexedSeq(point(-3, 4, 5))
+    assert(
+      MultiplyMatrixTuple(transform, p) === TupleToIndexedSeq(point(-8, 7, 3))
+    )
+  }
+
+  test("Translation does not affect vectors") {
+    val transform = Translation(5.0, -3.0, 2.0)
+    val p = TupleToIndexedSeq(vector(-3, 4, 5))
+    assert(
+      MultiplyMatrixTuple(transform, p) === TupleToIndexedSeq(vector(-3, 4, 5))
+    )
+  }
+
+  test("A scaling matrix applied to a point") {
+    val transform = Scaling(2.0, 3.0, 4.0)
+    val p = TupleToIndexedSeq(point(-4, 6, 8))
+    assert(
+      MultiplyMatrixTuple(transform, p) === TupleToIndexedSeq(point(-8, 18, 32))
+    )
+  }
+
+  test("A scaling matrix applied to a vector") {
+    val transform = Scaling(2.0, 3.0, 4.0)
+    val p = TupleToIndexedSeq(vector(-4, 6, 8))
+    assert(
+      MultiplyMatrixTuple(transform, p) === TupleToIndexedSeq(
+        vector(-8, 18, 32)
+      )
+    )
+  }
+
+  test("Multiplying by the inverse of a scaling matrix") {
+    val transform = Inverse(Some(Scaling(2.0, 3.0, 4.0))).get
+    val p = TupleToIndexedSeq(vector(-4, 6, 8))
+    assert(
+      MultiplyMatrixTuple(transform, p) === TupleToIndexedSeq(vector(-2, 2, 2))
+    )
+  }
+
+  test("Reflection is scaling by a negative value") {
+    val transform = Scaling(-1.0, 1.0, 1.0)
+    val p = TupleToIndexedSeq(point(2, 3, 4))
+    assert(
+      MultiplyMatrixTuple(transform, p) === TupleToIndexedSeq(point(-2, 3, 4))
+    )
+  }
 }
