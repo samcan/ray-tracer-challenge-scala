@@ -22,3 +22,22 @@ def Intersect(s: Sphere, r: Ray): Seq[Intersection] = {
       Intersection((-b + math.sqrt(discriminant)) / (2 * a), s.id)
     )
 }
+
+def Normal(s: Sphere, worldPoint: Tuple): Option[Tuple] = {
+  worldPoint match {
+    case Tuple(x, y, z, w) if w == 1.0 =>
+      val objectPoint = IndexedSeqToTuple(
+        MultiplyMatrixTuple(
+          Inverse(Some(s.transform)).get,
+          worldPoint
+        )
+      ).get
+      val objectNormal = objectPoint - point(0, 0, 0)
+      val worldNormal = MultiplyMatrixTuple(
+        Inverse(Submatrix(s.transform, 3, 3)).get.transpose,
+        objectNormal
+      ).appended(0.0)
+      Some(normalize(IndexedSeqToTuple(worldNormal).get))
+    case _ => None
+  }
+}

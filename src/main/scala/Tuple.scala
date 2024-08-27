@@ -143,3 +143,7 @@ def IndexedSeqToTuple(s: IndexedSeq[Double]): Option[Tuple] = {
     Some(Tuple(s.apply(0), s.apply(1), s.apply(2), s.apply(3)))
   else None
 }
+
+def Reflect(v: Tuple, normal: Tuple): Tuple = {
+  v - (normal * 2 * dot(v, normal))
+}

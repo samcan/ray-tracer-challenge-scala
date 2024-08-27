@@ -33,6 +33,13 @@ def MultiplyMatrixTuple(
   (a, b).zipped.map((x, y) => (x, b).zipped.map(_ * _).sum)
 }
 
+def MultiplyMatrixTuple(
+    a: IndexedSeq[IndexedSeq[Double]],
+    b: Tuple
+): IndexedSeq[Double] = {
+  MultiplyMatrixTuple(a, TupleToIndexedSeq(b))
+}
+
 def IdentityMatrix(): IndexedSeq[IndexedSeq[Double]] = {
   IndexedSeq(
     IndexedSeq[Double](1, 0, 0, 0),

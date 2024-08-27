@@ -37,4 +37,18 @@ class TupleSuite extends munit.FunSuite {
     val input = IndexedSeq[Double](1, 2)
     assertEquals(IndexedSeqToTuple(input), None)
   }
+
+  test("Reflecting a vector approaching at 45°") {
+    val v = vector(1, -1, 0)
+    // the normal vector to reflect across
+    val n = vector(0, 1, 0)
+    assert(Reflect(v, n) ~= vector(1, 1, 0))
+  }
+
+  test("Reflecting a vector off a slanted surface") {
+    val v = vector(0, -1, 0)
+    // the normal vector to reflect across
+    val n = vector(math.sqrt(2) / 2, math.sqrt(2) / 2, 0)
+    assert(Reflect(v, n) ~= vector(1, 0, 0))
+  }
 }

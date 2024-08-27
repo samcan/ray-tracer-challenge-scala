@@ -103,4 +103,63 @@ class SpheresSuite extends munit.FunSuite {
 
     assertEquals(xs.size, 0)
   }
+
+  test("The normal on a sphere at a point on the x axis") {
+    val s = Sphere()
+    assertEquals(Normal(s, point(1, 0, 0)).get, vector(1, 0, 0))
+  }
+
+  test("The normal on a sphere at a point on the y axis") {
+    val s = Sphere()
+    assertEquals(Normal(s, point(0, 1, 0)).get, vector(0, 1, 0))
+  }
+
+  test("The normal on a sphere at a point on the z axis") {
+    val s = Sphere()
+    assertEquals(Normal(s, point(0, 0, 1)).get, vector(0, 0, 1))
+  }
+
+  test("The normal on a sphere at a nonaxial point") {
+    val s = Sphere()
+    assertEquals(
+      Normal(
+        s,
+        point(math.sqrt(3) / 3, math.sqrt(3) / 3, math.sqrt(3) / 3)
+      ).get,
+      vector(math.sqrt(3) / 3, math.sqrt(3) / 3, math.sqrt(3) / 3)
+    )
+  }
+
+  test("The normal is a normalized vector") {
+    val s = Sphere()
+    val n =
+      Normal(s, point(math.sqrt(3) / 3, math.sqrt(3) / 3, math.sqrt(3) / 3))
+    assertEquals(n.get, normalize(n.get))
+  }
+
+  test("Computing the normal on a translated sphere") {
+    val s = Sphere()
+    val s2 = s.copy(transform = Translation(0, 1, 0))
+    assert(
+      Normal(s2, point(0, 1.70711, -0.70711)).get ~= vector(
+        0,
+        0.70711,
+        -0.70711
+      )
+    )
+  }
+
+  test("Computing the normal on a transformed sphere") {
+    val s = Sphere()
+    val s2 = s.copy(transform =
+      MultiplyMatrix(Scaling(1, 0.5, 1), RotationZ(math.Pi / 5))
+    )
+    assert(
+      Normal(s2, point(0, math.sqrt(2) / 2, -math.sqrt(2) / 2)).get ~= vector(
+        0,
+        0.97014,
+        -0.24254
+      )
+    )
+  }
 }
