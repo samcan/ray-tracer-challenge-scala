@@ -105,7 +105,7 @@ class MatricesSuite extends munit.FunSuite {
       Vector[Double](0, 0, 0, 1)
     )
     val b = TupleToIndexedSeq(Tuple(1, 2, 3, 1))
-    val product = IndexedSeqToTuple(MultiplyMatrixVector(a, b))
+    val product = IndexedSeqToTuple(MultiplyMatrixTuple(a, b))
     assertEquals(product, Some(Tuple(18, 24, 33, 1)))
   }
 

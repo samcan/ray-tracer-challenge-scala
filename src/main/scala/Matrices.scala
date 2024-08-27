@@ -25,7 +25,7 @@ def MultiplyMatrix(
 }
 
 // https://stackoverflow.com/q/60591619
-def MultiplyMatrixVector(
+def MultiplyMatrixTuple(
     a: IndexedSeq[IndexedSeq[Double]],
     b: IndexedSeq[Double]
 ): IndexedSeq[Double] = {
