@@ -387,4 +387,157 @@ class MatricesSuite extends munit.FunSuite {
       MultiplyMatrixTuple(transform, p) === TupleToIndexedSeq(point(-2, 3, 4))
     )
   }
+
+  test("Rotating a point around the x axis") {
+    val p = TupleToIndexedSeq(point(0, 1, 0))
+    val half_quarter = RotationX(math.Pi / 4)
+    val full_quarter = RotationX(math.Pi / 2)
+
+    assert(
+      MultiplyMatrixTuple(half_quarter, p) === TupleToIndexedSeq(
+        point(0, math.sqrt(2) / 2, math.sqrt(2) / 2)
+      )
+    )
+    assert(
+      MultiplyMatrixTuple(full_quarter, p) === TupleToIndexedSeq(
+        point(0, 0, 1)
+      )
+    )
+  }
+
+  test("The inverse of an x-rotation rotates in the opposite direction") {
+    val p = TupleToIndexedSeq(point(0, 1, 0))
+    val half_quarter = Inverse(Some(RotationX(math.Pi / 4))).get
+
+    assert(
+      MultiplyMatrixTuple(half_quarter, p) === TupleToIndexedSeq(
+        point(0, math.sqrt(2) / 2, -math.sqrt(2) / 2)
+      )
+    )
+  }
+
+  test("Rotating a point around the y axis") {
+    val p = TupleToIndexedSeq(point(0, 0, 1))
+    val half_quarter = RotationY(math.Pi / 4)
+    val full_quarter = RotationY(math.Pi / 2)
+
+    assert(
+      MultiplyMatrixTuple(half_quarter, p) === TupleToIndexedSeq(
+        point(math.sqrt(2) / 2, 0, math.sqrt(2) / 2)
+      )
+    )
+    assert(
+      MultiplyMatrixTuple(full_quarter, p) === TupleToIndexedSeq(
+        point(1, 0, 0)
+      )
+    )
+  }
+
+  test("Rotating a point around the z axis") {
+    val p = TupleToIndexedSeq(point(0, 1, 0))
+    val half_quarter = RotationZ(math.Pi / 4)
+    val full_quarter = RotationZ(math.Pi / 2)
+
+    assert(
+      MultiplyMatrixTuple(half_quarter, p) === TupleToIndexedSeq(
+        point(-math.sqrt(2) / 2, math.sqrt(2) / 2, 0)
+      )
+    )
+    assert(
+      MultiplyMatrixTuple(full_quarter, p) === TupleToIndexedSeq(
+        point(-1, 0, 0)
+      )
+    )
+  }
+
+  test("A shearing transformation moves x in proportion to y") {
+    val transform = Shearing(1, 0, 0, 0, 0, 0)
+    val p = TupleToIndexedSeq(point(2, 3, 4))
+    assert(
+      MultiplyMatrixTuple(transform, p) === TupleToIndexedSeq(
+        point(5, 3, 4)
+      )
+    )
+  }
+
+  test("A shearing transformation moves x in proportion to z") {
+    val transform = Shearing(0, 1, 0, 0, 0, 0)
+    val p = TupleToIndexedSeq(point(2, 3, 4))
+    assert(
+      MultiplyMatrixTuple(transform, p) === TupleToIndexedSeq(
+        point(6, 3, 4)
+      )
+    )
+  }
+
+  test("A shearing transformation moves y in proportion to x") {
+    val transform = Shearing(0, 0, 1, 0, 0, 0)
+    val p = TupleToIndexedSeq(point(2, 3, 4))
+    assert(
+      MultiplyMatrixTuple(transform, p) === TupleToIndexedSeq(
+        point(2, 5, 4)
+      )
+    )
+  }
+
+  test("A shearing transformation moves y in proportion to z") {
+    val transform = Shearing(0, 0, 0, 1, 0, 0)
+    val p = TupleToIndexedSeq(point(2, 3, 4))
+    assert(
+      MultiplyMatrixTuple(transform, p) === TupleToIndexedSeq(
+        point(2, 7, 4)
+      )
+    )
+  }
+
+  test("A shearing transformation moves z in proportion to x") {
+    val transform = Shearing(0, 0, 0, 0, 1, 0)
+    val p = TupleToIndexedSeq(point(2, 3, 4))
+    assert(
+      MultiplyMatrixTuple(transform, p) === TupleToIndexedSeq(
+        point(2, 3, 6)
+      )
+    )
+  }
+
+  test("A shearing transformation moves z in proportion to y") {
+    val transform = Shearing(0, 0, 0, 0, 0, 1)
+    val p = TupleToIndexedSeq(point(2, 3, 4))
+    assert(
+      MultiplyMatrixTuple(transform, p) === TupleToIndexedSeq(
+        point(2, 3, 7)
+      )
+    )
+  }
+
+  test("Individual transformations are applied in sequence") {
+    val p = TupleToIndexedSeq(point(1, 0, 1))
+    val transformA = RotationX(math.Pi / 2)
+    val transformB = Scaling(5, 5, 5)
+    val transformC = Translation(10, 5, 7)
+
+    // apply rotation first
+    val p2 = MultiplyMatrixTuple(transformA, p)
+    assert(p2 === TupleToIndexedSeq(point(1, -1, 0)))
+
+    // then apply scaling
+    val p3 = MultiplyMatrixTuple(transformB, p2)
+    assert(p3 === TupleToIndexedSeq(point(5, -5, 0)))
+
+    // then apply transformation
+    val p4 = MultiplyMatrixTuple(transformC, p3)
+    assert(p4 === TupleToIndexedSeq(point(15, 0, 7)))
+  }
+
+  test("Chained transformations must be applied in reverse order") {
+    val p = TupleToIndexedSeq(point(1, 0, 1))
+    val transformA = RotationX(math.Pi / 2)
+    val transformB = Scaling(5, 5, 5)
+    val transformC = Translation(10, 5, 7)
+
+    val transform = MultiplyMatrix(MultiplyMatrix(transformC, transformB), transformA)
+    assert(
+      MultiplyMatrixTuple(transform, p) === TupleToIndexedSeq(point(15, 0, 7))
+    )
+  }
 }

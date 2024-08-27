@@ -1,3 +1,4 @@
+import java.security.Identity
 def GetMatrixValue(
     matrix: IndexedSeq[IndexedSeq[Double]],
     y: Int,
@@ -138,4 +139,76 @@ def Scaling(
     .updated(0, IdentityMatrix()(0).updated(0, x))
     .updated(1, IdentityMatrix()(1).updated(1, y))
     .updated(2, IdentityMatrix()(2).updated(2, z))
+}
+
+def RotationX(radians: Double): IndexedSeq[IndexedSeq[Double]] = {
+  IdentityMatrix()
+    .updated(
+      1,
+      IdentityMatrix()(1)
+        .updated(1, math.cos(radians))
+        .updated(2, -math.sin(radians))
+    )
+    .updated(
+      2,
+      IdentityMatrix()(2)
+        .updated(1, math.sin(radians))
+        .updated(2, math.cos(radians))
+    )
+}
+
+def RotationY(radians: Double): IndexedSeq[IndexedSeq[Double]] = {
+  IdentityMatrix()
+    .updated(
+      0,
+      IdentityMatrix()(0)
+        .updated(0, math.cos(radians))
+        .updated(2, math.sin(radians))
+    )
+    .updated(
+      2,
+      IdentityMatrix()(2)
+        .updated(0, -math.sin(radians))
+        .updated(2, math.cos(radians))
+    )
+}
+
+def RotationZ(radians: Double): IndexedSeq[IndexedSeq[Double]] = {
+  IdentityMatrix()
+    .updated(
+      0,
+      IdentityMatrix()(0)
+        .updated(0, math.cos(radians))
+        .updated(1, -math.sin(radians))
+    )
+    .updated(
+      1,
+      IdentityMatrix()(1)
+        .updated(0, math.sin(radians))
+        .updated(1, math.cos(radians))
+    )
+}
+
+def Shearing(
+    xy: Double,
+    xz: Double,
+    yx: Double,
+    yz: Double,
+    zx: Double,
+    zy: Double
+): IndexedSeq[IndexedSeq[Double]] = {
+  IdentityMatrix()
+    .updated(
+      0,
+      IdentityMatrix()(0)
+        .updated(1, xy)
+        .updated(2, xz)
+    )
+    .updated(
+      1,
+      IdentityMatrix()(1)
+        .updated(0, yx)
+        .updated(2, yz)
+    )
+    .updated(2, IdentityMatrix()(2).updated(0, zx).updated(1, zy))
 }

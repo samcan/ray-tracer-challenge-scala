@@ -23,5 +23,21 @@ implicit val matrixEquality: Equality[IndexedSeq[IndexedSeq[Double]]] =
     }
   }
 
+implicit val tupleEquality: Equality[IndexedSeq[Double]] =
+  new Equality[IndexedSeq[Double]] {
+    def areEqual(
+        a: IndexedSeq[Double],
+        b: Any
+    ): Boolean = {
+      b match {
+        case m: IndexedSeq[Double] =>
+          a.zip(m)
+            .map((value1, value2) => value1 === value2)
+            .foldLeft(true)((result, b) => result && b)
+        case _ => false
+      }
+    }
+  }
+
 @main def hello(): Unit =
   println("Hello world!")
