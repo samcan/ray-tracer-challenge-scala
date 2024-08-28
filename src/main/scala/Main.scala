@@ -42,11 +42,17 @@ implicit val tupleEquality: Equality[IndexedSeq[Double]] =
 
 @main def RayTracer(): Unit = {
   // size of the canvas as a square
-  val canvasPixels = 100
+  val canvasPixels = 200
 
   val red = Color(1, 0, 0)
-  val shape = Sphere()
-  val rayOrigin = point(0, 0, -5)
+  val material = Material().copy(color = Color(1, 0.2, 1))
+  val shape = Sphere().copy(material = material)
+
+  val eye = point(0, 0, -5)
+
+  // define light source
+  val light = PointLight(point(-10, 10, -10), Color(1, 1, 1))
+
   val wallSize = 7.0
   val wallZ = 10.0
   val pixelSize = wallSize / canvasPixels
@@ -76,9 +82,9 @@ implicit val tupleEquality: Equality[IndexedSeq[Double]] =
     GetWorldX(half, pixelSize, x),
     GetWorldY(half, pixelSize, y),
     wallZ,
+    light,
     shape,
-    rayOrigin,
-    red
+    eye
   )
 
   // save the canvas as a ppm file
@@ -102,15 +108,21 @@ def CalculatePixel(
     wx: Double,
     wy: Double,
     wz: Double,
+    light: PointLight,
     shape: Sphere,
-    rayOrigin: Tuple,
-    color: Color
+    rayOrigin: Tuple
 ): Unit = {
   val position = point(wx, wy, wz)
   val r = Ray(rayOrigin, normalize(position - rayOrigin))
   val xs = Intersect(shape, r)
+  val hit = Hit(xs)
 
-  if Hit(xs).isDefined then SetPixel(canvas, x, y, color)
+  if hit.isDefined then
+    val point = Position(r, hit.get.t)
+    val normal = Normal(hit.get.obj, point)
+    val eye = negate(r.direction)
+    val color = Lighting(hit.get.obj.material, light, point, eye, normal.get)
+    SetPixel(canvas, x, y, color)
 }
 
 // def TraceCanvasRow(

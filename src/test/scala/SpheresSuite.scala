@@ -8,7 +8,7 @@ class SpheresSuite extends munit.FunSuite {
     assertEquals(xs.size, 2)
     assertEquals(
       xs,
-      List[Intersection](Intersection(4.0, s.id), Intersection(6.0, s.id))
+      List[Intersection](Intersection(4.0, s), Intersection(6.0, s))
     )
   }
 
@@ -21,7 +21,7 @@ class SpheresSuite extends munit.FunSuite {
     assertEquals(xs.size, 2)
     assertEquals(
       xs,
-      List[Intersection](Intersection(5.0, s.id), Intersection(5.0, s.id))
+      List[Intersection](Intersection(5.0, s), Intersection(5.0, s))
     )
   }
 
@@ -43,7 +43,7 @@ class SpheresSuite extends munit.FunSuite {
     assertEquals(xs.size, 2)
     assertEquals(
       xs,
-      List[Intersection](Intersection(-1.0, s.id), Intersection(1.0, s.id))
+      List[Intersection](Intersection(-1.0, s), Intersection(1.0, s))
     )
   }
 
@@ -56,7 +56,7 @@ class SpheresSuite extends munit.FunSuite {
     assertEquals(xs.size, 2)
     assertEquals(
       xs,
-      List[Intersection](Intersection(-6.0, s.id), Intersection(-4.0, s.id))
+      List[Intersection](Intersection(-6.0, s), Intersection(-4.0, s))
     )
   }
 
@@ -67,7 +67,7 @@ class SpheresSuite extends munit.FunSuite {
     val xs = Intersect(s, r)
 
     assertEquals(xs.size, 2)
-    assertEquals(xs.map(i => i.objectId), List[java.util.UUID](s.id, s.id))
+    assertEquals(xs.map(i => i.obj), List[Sphere](s, s))
   }
 
   test("A sphere's default transformation") {

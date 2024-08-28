@@ -19,8 +19,8 @@ def Intersect(s: Sphere, r: Ray): Seq[Intersection] = {
   if discriminant < 0 then List[Intersection]()
   else
     List[Intersection](
-      Intersection((-b - math.sqrt(discriminant)) / (2 * a), s.id),
-      Intersection((-b + math.sqrt(discriminant)) / (2 * a), s.id)
+      Intersection((-b - math.sqrt(discriminant)) / (2 * a), s),
+      Intersection((-b + math.sqrt(discriminant)) / (2 * a), s)
     )
 }
 

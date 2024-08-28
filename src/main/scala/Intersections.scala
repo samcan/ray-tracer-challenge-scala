@@ -1,5 +1,5 @@
-case class Intersection(t: Double, objectId: java.util.UUID)
+case class Intersection(t: Double, obj: Sphere)
 
 def Hit(xs: Seq[Intersection]): Option[Intersection] = {
-  xs.sortBy(i => (i.t, i.objectId)).find(i => i.t >= 0)
+  xs.sortBy(i => i.t).find(i => i.t >= 0)
 }
