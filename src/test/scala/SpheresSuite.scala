@@ -162,4 +162,16 @@ class SpheresSuite extends munit.FunSuite {
       )
     )
   }
+
+  test("A sphere has a default material") {
+    val s = Sphere()
+    assertEquals(s.material, Material())
+  }
+
+  test("A sphere may be assigned a material") {
+    val s = Sphere()
+    val m = Material().copy(ambient = 1)
+    val s2 = s.copy(material = m)
+    assertEquals(s2.material, m)
+  }
 }

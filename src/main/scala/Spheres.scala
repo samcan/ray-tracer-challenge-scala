@@ -1,6 +1,7 @@
 case class Sphere(
     id: java.util.UUID = java.util.UUID.randomUUID(),
-    transform: IndexedSeq[IndexedSeq[Double]] = IdentityMatrix()
+    transform: IndexedSeq[IndexedSeq[Double]] = IdentityMatrix(),
+    material: Material = Material()
 )
 
 def Intersect(s: Sphere, r: Ray): Seq[Intersection] = {
