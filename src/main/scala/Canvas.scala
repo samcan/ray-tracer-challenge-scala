@@ -1,19 +1,15 @@
-def MakeCanvasRow(x: Int, color: Color): IndexedSeq[Color] = {
-  Vector.fill(x)(color).toIndexedSeq
-}
-
 def MakeCanvas(
     prefill: Color
-)(x: Int, y: Int): IndexedSeq[IndexedSeq[Color]] = {
-  Vector.fill(y)(MakeCanvasRow(x, prefill)).toIndexedSeq
+)(x: Int, y: Int): Array[Array[Color]] = {
+  Array.fill[Color](y, x)(prefill)
 }
 
-def MakeCanvas(x: Int, y: Int): IndexedSeq[IndexedSeq[Color]] = {
+def MakeCanvas(x: Int, y: Int): Array[Array[Color]] = {
   MakeCanvas(Color(0, 0, 0))(x, y)
 }
 
 def PixelAt(
-    canvas: IndexedSeq[IndexedSeq[Color]],
+    canvas: Array[Array[Color]],
     x: Int,
     y: Int
 ): Option[Color] = {
@@ -22,11 +18,11 @@ def PixelAt(
 }
 
 def SetPixel(
-    canvas: IndexedSeq[IndexedSeq[Color]],
+    canvas: Array[Array[Color]],
     x: Int,
     y: Int,
     c: Color
-): IndexedSeq[IndexedSeq[Color]] = {
-  val updatedRow = canvas(y).updated(x, c)
-  canvas.updated(y, updatedRow)
+): Array[Array[Color]] = {
+  canvas(y)(x) = c
+  canvas
 }

@@ -2,11 +2,11 @@ val MIN_COLOR_VAL: Long = 0
 val MAX_COLOR_VAL: Long = 255
 val MAX_ROW_LEN = 70
 
-def CanvasToPPM(canvas: IndexedSeq[IndexedSeq[Color]]): Seq[String] = {
+def CanvasToPPM(canvas: Array[Array[Color]]): Seq[String] = {
   val rows = canvas.length
   val cols = canvas(rows - 1).length
 
-  val header = Seq[String]("P3\n", s"$rows $cols\n", s"$MAX_COLOR_VAL")
+  val header = Seq[String]("P3\n", s"$rows $cols\n", s"$MAX_COLOR_VAL\n")
   val data = canvas.map(WriteRow)
   (header ++ data)
 }
@@ -18,7 +18,7 @@ def WritePixel(pixel: Color): String = {
     )} ${clamper(math.round(pixel.blue * MAX_COLOR_VAL))}"
 }
 
-def WriteRow(row: IndexedSeq[Color]): String = {
+def WriteRow(row: Array[Color]): String = {
   val output = row
     .map(WritePixel)
     .foldLeft("")((output, s) => output + s + " ")

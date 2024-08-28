@@ -54,5 +54,5 @@ class CanvasSuite extends munit.FunSuite {
     assertEquals(PixelAt(outputCanvas, x, y), Some(redColor))
   }
 
-  // TODO Test WritePixel with out-of-bounds indices
+  // TODO Test SetPixel with out-of-bounds indices
 }

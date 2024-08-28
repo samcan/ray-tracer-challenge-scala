@@ -9,7 +9,7 @@ class PortablePixmapSaverSuite extends munit.FunSuite {
     assert(output.length >= 3)
     assertEquals(output.apply(0), "P3\n")
     assertEquals(output.apply(1), s"$height $width\n")
-    assertEquals(output.apply(2), "255")
+    assertEquals(output.apply(2), "255\n")
   }
 
   test("Constructing the PPM pixel data") {
@@ -48,7 +48,7 @@ class PortablePixmapSaverSuite extends munit.FunSuite {
   }
 
   test("Write a row") {
-    val row = MakeCanvasRow(3, Color(0, 0, 0))
+    val row = MakeCanvas(Color(0, 0, 0))(3, 3).apply(0)
     val expected = "0 0 0 0 0 0 0 0 0\n"
     assertEquals(WriteRow(row), expected)
   }
